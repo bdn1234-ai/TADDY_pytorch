@@ -161,7 +161,7 @@ class DynADModel(BertPreTrainedModel):
                     with torch.no_grad():
                         output = self.forward(int_embedding, hop_embedding, time_embedding, None)
                         output = torch.sigmoid(output)
-                    pred = output.squeeze().numpy()
+                    pred = output.squeeze().cpu.numpy()
                     preds.append(pred)
 
                 y_test = self.data['y'][min(self.data['snap_test']):max(self.data['snap_test'])+1]
