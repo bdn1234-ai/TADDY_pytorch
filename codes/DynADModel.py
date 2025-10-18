@@ -27,7 +27,7 @@ class DynADModel(BertPreTrainedModel):
         self.args = args
         self.config = config
 
-        self._device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self._device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         self.transformer = BaseModel(config)
         self.cls_y = torch.nn.Linear(config.hidden_size, 1)
