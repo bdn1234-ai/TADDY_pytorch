@@ -27,14 +27,14 @@ class DynADModel(BertPreTrainedModel):
         self.args = args
         self.config = config
 
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self._device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         self.transformer = BaseModel(config)
         self.cls_y = torch.nn.Linear(config.hidden_size, 1)
         self.weight_decay = config.weight_decay
         self.init_weights()
 
-        self.to(self.device)
+        self.to(self._device)
 
     def forward(self, init_pos_ids, hop_dis_ids, time_dis_ids, idx=None):
 
@@ -129,10 +129,10 @@ class DynADModel(BertPreTrainedModel):
                 time_embedding = torch.vstack((time_embedding_pos, time_embedding_neg))
                 y = torch.hstack((y_pos, y_neg))
 
-                int_embedding = int_embedding.to(self.device)
-                hop_embedding = hop_embedding.to(self.device)
-                time_embedding = time_embedding.to(self.device)
-                y = y.to(self.device)
+                int_embedding = int_embedding.to(self._device)
+                hop_embedding = hop_embedding.to(self._device)
+                time_embedding = time_embedding.to(self._device)
+                y = y.to(self._device)
 
                 optimizer.zero_grad()
 
@@ -154,9 +154,9 @@ class DynADModel(BertPreTrainedModel):
                     hop_embedding = hop_embeddings[snap]
                     time_embedding = time_embeddings[snap]
 
-                    int_embedding = int_embedding.to(self.device)
-                    hop_embedding = hop_embedding.to(self.device)
-                    time_embedding = time_embedding.to(self.device)
+                    int_embedding = int_embedding.to(self._device)
+                    hop_embedding = hop_embedding.to(self._device)
+                    time_embedding = time_embedding.to(self._device)
 
                     with torch.no_grad():
                         output = self.forward(int_embedding, hop_embedding, time_embedding, None)
