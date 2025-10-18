@@ -1,6 +1,10 @@
 import torch
 import torch.nn as nn
-from transformers.modeling_bert import BertAttention, BertIntermediate, BertOutput
+from transformers.models.bert.modeling_bert import (
+    BertAttention,
+    BertIntermediate,
+    BertOutput
+)
 from transformers.configuration_utils import PretrainedConfig
 
 TransformerLayerNorm = torch.nn.LayerNorm
